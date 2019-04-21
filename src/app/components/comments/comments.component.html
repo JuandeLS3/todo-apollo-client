@@ -1,0 +1,12 @@
+<div *ngIf="comments && comments.length > 0">
+  <h4>Commnets:</h4>
+  <div class="comments-container">
+    <div *ngFor="let comment of comments" class="comments-item-container">
+      <div class="heading">
+        <div class="author">@{{comment.author}}</div>
+        <div class="title">{{comment.title}}</div>
+      </div>
+      <div class="description">{{comment.description}}</div>
+    </div>
+  </div>
+</div>

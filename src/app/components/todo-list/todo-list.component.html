@@ -1,0 +1,7 @@
+<div *ngIf="todos && todos.length > 0" class="todos-container">
+  <div *ngFor="let todo of todos" class="todos-item-container" [routerLink]="['/todo', todo.id]">
+    <div class="id">#{{todo.id}}</div>
+    <div class="title">{{todo.title}}</div>
+    <div class="author">@{{todo.author}}</div>
+  </div>
+</div>

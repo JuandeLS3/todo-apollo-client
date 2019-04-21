@@ -1,0 +1,25 @@
+.comments-container {
+  .comments-item-container {
+    border-radius: 4px;
+    background-color: #FFF;
+    margin-bottom: 15px;
+    .heading {
+      display: flex;
+      flex-direction: row;
+      border-bottom: 1px solid rgba(22, 30, 38, 0.2);
+      .author {
+        padding: 15px 20px;
+      }
+      .title {
+        flex: 1;
+        padding: 15px 20px;
+        background-color: rgba(22, 30, 38, 0.2);
+        border-top-right-radius: 4px;
+      }
+    }
+    .description {
+
+      padding: 15px 20px;
+    }
+  }
+}

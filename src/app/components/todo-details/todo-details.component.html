@@ -1,0 +1,6 @@
+<div *ngIf="todo" class="todo-details-container">
+  <h1 class="title">{{todo.title}}</h1>
+  <span class="author">Author: <b>@{{todo.author}}</b></span>
+  <p class="description">{{todo.description}}</p>
+  <app-comments [todo]="todo"></app-comments>
+</div>

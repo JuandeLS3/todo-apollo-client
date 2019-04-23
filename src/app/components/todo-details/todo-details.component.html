@@ -1,6 +1,42 @@
 <div *ngIf="todo" class="todo-details-container">
-  <h1 class="title">{{todo.title}}</h1>
-  <span class="author">Author: <b>@{{todo.author}}</b></span>
-  <p class="description">{{todo.description}}</p>
+  <div class="heading">
+    <span class="id">#{{todo.id}}</span>
+    <span class="title">{{todo.title}}</span>
+    <button (click)="updateTodoModalDialog.toggle(true)">
+      <img src="./assets/edit.svg" alt="edit">
+    </button>
+    <span class="author">@{{todo.author}}</span>
+  </div>
+  <div class="description">{{todo.description}}</div>
   <app-comments [todo]="todo"></app-comments>
 </div>
+
+<app-modal-dialog #updateTodoModalDialog heading="Update Todo">
+  <form [formGroup]="updateTodoFormGroup" (ngSubmit)="todoFormSubmit()">
+    <label for="author">Author:</label>
+    <input type="text" id="author" formControlName="author">
+    <label for="title">Title:</label>
+    <input type="text" id="title" formControlName="title">
+    <label for="description">Description:</label>
+    <textarea rows="3" id="description" formControlName="description"></textarea>
+    <button type="submit"
+      [disabled]="updateTodoFormGroup.pristine || updateTodoFormGroup.invalid || updateTodoFormGroup.pending">Submit</button>
+  </form>
+</app-modal-dialog>
+
+<app-modal-dialog #addCommentModalDialog heading="Add new Comment">
+  <form [formGroup]="addCommentFormGroup" (ngSubmit)="commentFormSubmit()">
+    <label for="author">Author:</label>
+    <input type="text" id="author" formControlName="author">
+    <label for="title">Title:</label>
+    <input type="text" id="title" formControlName="title">
+    <label for="description">Description:</label>
+    <textarea rows="3" id="description" formControlName="description"></textarea>
+    <button type="submit"
+      [disabled]="addCommentFormGroup.pristine || addCommentFormGroup.invalid || addCommentFormGroup.pending">Submit</button>
+  </form>
+</app-modal-dialog>
+
+<button class="fab" title="Add new Todo" (click)="addCommentModalDialog.toggle(true)">
+  <img src="./assets/add.svg" alt="add new commnet">
+</button>

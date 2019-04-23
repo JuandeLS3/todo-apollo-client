@@ -1,0 +1,15 @@
+<div class="modal-dialog" [ngClass]="{'active': active}">
+  <div class="background"></div>
+
+  <div class="foreground">
+    <div class="heading">
+      <div class="title">{{heading}}</div>
+      <button class="button-close" (click)="toggle(false)">
+        <img src="./assets/close.svg" alt="close">
+      </button>
+    </div>
+    <div class="content">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

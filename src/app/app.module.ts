@@ -9,6 +9,8 @@ import { GraphqlService } from './services/graphql.service';
 import { TodoListComponent } from './components/todo-list/todo-list.component';
 import { TodoDetailsComponent } from './components/todo-details/todo-details.component';
 import { CommentsComponent } from './components/comments/comments.component';
+import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 /**
  * Both TodoListComponent and TodoDetailsComponent
@@ -26,13 +28,16 @@ import { CommentsComponent } from './components/comments/comments.component';
     AppComponent,
     TodoListComponent,
     TodoDetailsComponent,
-    CommentsComponent
+    CommentsComponent,
+    ModalDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     GraphQLModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [ GraphqlService ],
   bootstrap: [AppComponent]

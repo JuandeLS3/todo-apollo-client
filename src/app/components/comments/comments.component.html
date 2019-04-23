@@ -3,10 +3,27 @@
   <div class="comments-container">
     <div *ngFor="let comment of comments" class="comments-item-container">
       <div class="heading">
-        <div class="author">@{{comment.author}}</div>
-        <div class="title">{{comment.title}}</div>
+        <span class="id">#{{comment.id}}</span>
+        <span class="title">{{comment.title}}</span>
+        <button (click)="edit(comment)">
+          <img src="./assets/edit.svg" alt="edit">
+        </button>
+        <span class="author">@{{comment.author}}</span>
       </div>
       <div class="description">{{comment.description}}</div>
     </div>
   </div>
 </div>
+
+<app-modal-dialog #updateCommentModalDialog heading="Update Comment">
+  <form [formGroup]="updateCommentFormGroup" (ngSubmit)="commentFormSubmit()">
+    <label for="author">Author:</label>
+    <input type="text" id="author" formControlName="author">
+    <label for="title">Title:</label>
+    <input type="text" id="title" formControlName="title">
+    <label for="description">Description:</label>
+    <textarea rows="3" id="description" formControlName="description"></textarea>
+    <button type="submit"
+      [disabled]="updateCommentFormGroup.pristine || updateCommentFormGroup.invalid || updateCommentFormGroup.pending">Submit</button>
+  </form>
+</app-modal-dialog>

@@ -6,19 +6,42 @@
     .heading {
       display: flex;
       flex-direction: row;
-      border-bottom: 1px solid rgba(22, 30, 38, 0.2);
-      .author {
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+      background-color: rgba(22, 30, 38, 0.2);
+      margin-top: 25px;
+      .id {
+        color: #fff;
         padding: 15px 20px;
+        background-color: #e535ab;
+        border-top-left-radius: 4px;
       }
       .title {
         flex: 1;
+        background: #fff;
         padding: 15px 20px;
-        background-color: rgba(22, 30, 38, 0.2);
+        border-bottom: 1px solid #e535ab;
+      }
+      .author {
+        padding: 15px 20px;
         border-top-right-radius: 4px;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-image:
+        linear-gradient(
+          to right,
+          #e535ab,
+          rgba(22, 30, 38, 0.2)
+        ) 1 100%;
+        border-image-slice: 20;
+        border-spacing: 5px;
+      }
+      button {
+        border: none;
+        border-bottom: 1px solid #e535ab;
       }
     }
     .description {
-
       padding: 15px 20px;
     }
   }

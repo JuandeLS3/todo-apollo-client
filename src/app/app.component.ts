@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Apollo-Angular: Todos';
+  title = 'Apollo-Angular: Todos'; // Simple public var declaration
 }

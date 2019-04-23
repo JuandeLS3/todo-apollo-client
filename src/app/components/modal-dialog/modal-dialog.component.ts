@@ -1,21 +1,23 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-modal-dialog',
   templateUrl: './modal-dialog.component.html',
   styleUrls: ['./modal-dialog.component.scss']
 })
-export class ModalDialogComponent implements OnInit {
+export class ModalDialogComponent {
 
   active = false; // current display state
 
-  @Input() heading: string;
+  @Input() heading: string; // inherited title value
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  /**
+   * Toogle dialog visibility state
+   *
+   * @param {boolean} [state]
+   * @returns {boolean}
+   * @memberof ModalDialogComponent
+   */
   toggle(state?: boolean): boolean {
     if (typeof state !== undefined) {
       return this.active = state;

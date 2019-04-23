@@ -1,28 +1,33 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GraphqlService } from 'src/app/services/graphql.service';
-import { Todo } from 'src/app/types/todo';
-import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { GraphqlService } from 'src/app/services/graphql.service';
+import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
+import { Subscription } from 'rxjs';
+import { Todo } from 'src/app/types/todo';
 
 @Component({
   selector: 'app-todo-details',
   templateUrl: './todo-details.component.html',
   styleUrls: ['./todo-details.component.scss']
 })
-export class TodoDetailsComponent implements OnInit {
+export class TodoDetailsComponent implements OnInit, OnDestroy {
 
-  todo: Todo; // Current "todo" object
+  todo: Todo; // Current Todo object
+  todoSubscription: Subscription; // Subscription container
 
+  // template element references
   @ViewChild("updateTodoModalDialog") todoDialog: ModalDialogComponent;
   @ViewChild("addCommentModalDialog") commentDialog: ModalDialogComponent;
 
+  // Angular FromGroup object for UpdateTodo form declaration
   updateTodoFormGroup = new FormGroup({
     title: new FormControl('', Validators.required),
     author: new FormControl('', Validators.required),
     description: new FormControl()
   });
 
+  // Angular FromGroup object for AddComment form declaration
   addCommentFormGroup = new FormGroup({
     title: new FormControl('', Validators.required),
     author: new FormControl('', Validators.required),
@@ -46,14 +51,34 @@ export class TodoDetailsComponent implements OnInit {
     // Find "todo" by it's "id" using GraphqlService
     this.graphqlService.getTodo(id).subscribe(todo => {
       this.setTodo(todo);
+      this.watchTodo(id);
     });
   }
 
-  private setTodo(todo): void {
+  /**
+   * This method will be executed automatically on Component destruction
+   *
+   * @memberof TodoDetailsComponent
+   */
+  ngOnDestroy() {
+    // Remove subscription
+    if (this.todoSubscription && !this.todoSubscription.closed) {
+      this.todoSubscription.unsubscribe();
+    }
+  }
+
+  /**
+   * Store Todo object as local var and update related values
+   *
+   * @private
+   * @param {Todo} todo
+   * @memberof TodoDetailsComponent
+   */
+  private setTodo(todo: Todo): void {
     // Set local Object
     this.todo = todo;
 
-    // Fill Todo Update form with values by creating object of type {[<fieldName>]: <value>}
+    // Fill TodoUpdate Form with values
     const fields = Object.keys(this.updateTodoFormGroup.controls);
     const values = fields.reduce((acc, cur) => {
       acc[cur] = this.todo[cur];
@@ -64,16 +89,18 @@ export class TodoDetailsComponent implements OnInit {
     this.updateTodoFormGroup.setValue(values);
   }
 
-  todoFormSubmit(): void {
-    const { title, author, description } = this.updateTodoFormGroup.value;
-
-    this.graphqlService.updateTodo(
-      this.todo.id, title, author, description
-    ).subscribe(
+  /**
+   * Start GraphQl subscription for Todo object changes
+   *
+   * @private
+   * @param {number} id
+   * @memberof TodoDetailsComponent
+   */
+  private watchTodo(id: number): void {
+    this.todoSubscription = this.graphqlService.todoUpdated(id).subscribe(
       todo => {
-        this.todo = todo;
-        this.updateTodoFormGroup.reset();
-        this.todoDialog.toggle();
+        console.log('TodoUpdated Subscription result:', todo);
+        this.setTodo(todo);
       },
       err => {
         console.error(err);
@@ -81,16 +108,51 @@ export class TodoDetailsComponent implements OnInit {
     );
   }
 
+  /**
+   * UpdateTodo Form submit handler
+   *
+   * @memberof TodoDetailsComponent
+   */
+  todoFormSubmit(): void {
+    // Deconstruct form value object into separated vars
+    const { title, author, description } = this.updateTodoFormGroup.value;
+
+    this.graphqlService.updateTodo(
+      this.todo.id,
+      title,
+      author,
+      description
+    ).subscribe(
+      todo => {
+        console.log('UpdateTodo Mutation result:', todo);
+        this.updateTodoFormGroup.reset(); // clean form
+        this.todoDialog.toggle(); // close modal dialog
+      },
+      err => {
+        console.error(err);
+      }
+    );
+  }
+
+  /**
+   * AddComment Form submit handler
+   *
+   * @memberof TodoDetailsComponent
+   */
   commentFormSubmit(): void {
+    // Deconstruct form value object into separated vars
     const { title, author, description } = this.addCommentFormGroup.value;
 
     this.graphqlService.addComment(
-      this.todo.id, title, author, description
+      this.todo.id,
+      title,
+      author,
+      description
     ).subscribe(
       todo => {
-        this.todo = todo;
-        this.addCommentFormGroup.reset();
-        this.commentDialog.toggle();
+        console.log('AddComment Mutation result:', todo);
+        this.addCommentFormGroup.reset(); // clean form
+        this.commentDialog.toggle(); // close modal dialog
       },
       err => {
         console.error(err);

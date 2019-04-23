@@ -1,7 +1,7 @@
 .comments-container {
   .comments-item-container {
     border-radius: 4px;
-    background-color: #FFF;
+    background-color: #fff;
     margin-bottom: 15px;
     .heading {
       display: flex;
@@ -27,12 +27,8 @@
         border-top-right-radius: 4px;
         border-bottom-style: solid;
         border-bottom-width: 1px;
-        border-image:
-        linear-gradient(
-          to right,
-          #e535ab,
-          rgba(22, 30, 38, 0.2)
-        ) 1 100%;
+        border-image: linear-gradient(to right, #e535ab, rgba(22, 30, 38, 0.2))
+          1 100%;
         border-image-slice: 20;
         border-spacing: 5px;
       }

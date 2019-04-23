@@ -26,7 +26,7 @@
   .foreground {
     width: 65%;
     border-radius: 4px;
-    background: #FFF;
+    background: #fff;
     z-index: 3;
     .heading {
       display: flex;
@@ -45,7 +45,7 @@
       .button-close {
         padding: 15px 20px;
         display: block;
-        background: #FFF;
+        background: #fff;
         border: none;
         font-size: 1em;
         border-top-right-radius: 4px;
@@ -56,5 +56,4 @@
       padding: 15px 20px;
     }
   }
-
 }

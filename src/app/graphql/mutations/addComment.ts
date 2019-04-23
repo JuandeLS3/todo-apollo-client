@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export const addComment = gql`
+export const addCommentMutation = gql`
   mutation addComment($todoId: ID!, $title: String, $author: String, $description: String) {
     addComment(todoId: $todoId, title: $title, author: $author, description: $description) {
       id

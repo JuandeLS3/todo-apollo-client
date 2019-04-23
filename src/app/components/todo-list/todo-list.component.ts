@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
-import { GraphqlService } from '../../services/graphql.service';
-import { Todo } from '../../types/todo';
-import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { GraphqlService } from '../../services/graphql.service';
+import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
+import { Todo } from '../../types/todo';
 
 @Component({
   selector: 'app-todo-list',
@@ -12,10 +11,11 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class TodoListComponent implements OnInit {
 
-  todos: Todo[] = []; // Current "todo" object list
+  todos: Todo[] = []; // Current Todo object list
 
-  @ViewChild("addTodoModalDialog") dialog: ModalDialogComponent;
+  @ViewChild("addTodoModalDialog") dialog: ModalDialogComponent; // template element reference
 
+  // Angular FromGroup object for AddTodo form declaration
   addTodoFormGroup = new FormGroup({
     title: new FormControl('', Validators.required),
     author: new FormControl('', Validators.required),
@@ -32,27 +32,34 @@ export class TodoListComponent implements OnInit {
    * @memberof TodoListComponent
    */
   ngOnInit(): void {
-    this.fetch();
-  }
-
-  fetch(): void {
-    // Fetch list of "todo" items from graphql server using service
+    // Fetch list of Todo objects
     this.graphqlService.todos.subscribe(todos => {
-      // Store list of "todo" object in current execution environment
       this.todos = todos;
     });
   }
 
+  /**
+   * AddTodo Form submit handler
+   *
+   * @memberof TodoListComponent
+   */
   todoFormSubmit(): void {
+    // Deconstruct form value object into separated vars
     const { title, author, description } = this.addTodoFormGroup.value;
 
     this.graphqlService.addTodo(
-      title, author, description
+      title,
+      author,
+      description
     ).subscribe(
       todo => {
+        /*
+        Append resultant Todo object to current Todo object list,
+        this way there is no need to fetch data again.
+        */
         this.todos.push(todo);
-        this.addTodoFormGroup.reset();
-        this.dialog.toggle();
+        this.addTodoFormGroup.reset(); // clean form
+        this.dialog.toggle(); // close modal dialog
       },
       err => {
         console.error(err);

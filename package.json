@@ -9,14 +9,13 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start": "node server.js",
-    "postinstall": "ng build --aot --prod",
     "heroku-postbuild": "ng build --aot --prod"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~7.1.0",
-    "@angular/common": "~7.1.0",
     "@angular/cli": "^7.3.8",
+    "@angular/common": "~7.1.0",
     "@angular/compiler": "~7.1.0",
     "@angular/compiler-cli": "^7.2.13",
     "@angular/core": "~7.1.0",
@@ -31,13 +30,15 @@
     "apollo-link": "^1.2.0",
     "apollo-link-ws": "^1.0.17",
     "core-js": "^2.5.4",
+    "express": "^4.16.4",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.10.0",
+    "path": "^0.12.7",
     "rxjs": "~6.3.3",
     "subscriptions-transport-ws": "^0.9.16",
     "tslib": "^1.9.0",
-    "zone.js": "~0.8.26",
-    "typescript": "~3.1.6"
+    "typescript": "~3.1.6",
+    "zone.js": "~0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.8",

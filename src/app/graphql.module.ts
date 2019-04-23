@@ -26,12 +26,12 @@ export class GraphQLModule {
   ) {
     // Create an http link:
     const http = httpLink.create({
-      uri: 'http://localhost:4000/graphql'
+      uri: 'https://todo-apollo-server.herokuapp.com/'
     });
 
     // Create a WebSocket link:
     const ws = new WebSocketLink({
-      uri: `ws://localhost:4000/graphql`,
+      uri: `wss://todo-apollo-server.herokuapp.com/graphql`,
       options: {
         reconnect: true
       }
